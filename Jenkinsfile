@@ -22,6 +22,12 @@ pipeline {
       jacoco()
       }
     }
+    stage ('Slack Notification for Dev Deploy') {
+      steps {
+        echo "deployed to Dev Env successfully"
+        slackSend(channel:'devopsbuild', message: "Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      }
+    }  
     stage ('DEV Deployment fourth stage') {
       steps {
       echo "deploying to DEV Env "
