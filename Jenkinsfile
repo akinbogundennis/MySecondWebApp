@@ -5,24 +5,24 @@ pipeline {
   maven 'Maven3'
   }
   stages {
-    stage ('Build number one stage') {
+    stage ('Building stage one with maven') {
       steps {
       sh 'mvn clean install -f MyWebApp/pom.xml'
       }
     }
-    stage ('Code Quality second stage') {
+    stage ('Code Quality with SonarQube second stage') {
       steps {
         withSonarQubeEnv('SonarQube') {
         sh 'mvn -f MyWebApp/pom.xml sonar:sonar'
         }
       }
     }
-    stage ('JaCoCo third stage') {
+    stage ('JaCoCo code coverage tool third stage') {
       steps {
       jacoco()
       }
     }
-    stage ('DEV Deploy fourth stage') {
+    stage ('DEV Deployment fourth stage') {
       steps {
       echo "deploying to DEV Env "
       deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: null, war: '**/*.war'
@@ -32,7 +32,7 @@ pipeline {
       steps {
       echo "Taking approval from DEV Manager for QA Deployment"
         timeout(time: 7, unit: 'DAYS') {
-        input message: 'Do you want to deploy?', submitter: 'admin'
+        input message: 'Do you want to deploy? Pls select one to proceed', submitter: 'admin'
         }
       }
     }
