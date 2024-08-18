@@ -25,7 +25,7 @@ pipeline {
     stage ('Slack Notification for Dev Deploy') {
       steps {
         echo "deployed to Dev Env successfully"
-        slackSend(channel:'devopsbuild', message: "Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        slackSend(channel:'devopsbuild', message: "Slack Notification for Dev Deploy Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
       }
     }  
     stage ('DEV Deployment fourth stage') {
@@ -59,7 +59,7 @@ pipeline {
     stage ('Slack Notification for QA Deploy') {
       steps {
         echo "deployed to QA Env successfully"
-        slackSend(channel:'devopsbuild', message: "Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        slackSend(channel:'devopsbuild', message: "Slack Notification for QA successfl deployment Job is successful, here is the info - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
       }
     }  
   }
