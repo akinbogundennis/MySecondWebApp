@@ -35,8 +35,14 @@ pipeline {
 
     stage('DEV Deployment fourth stage') {
       steps {
-        echo "Undeploying from DEV Env if already deployed"
-        deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: '/MyWebApp', war: ''
+        script {
+          echo "Undeploying from DEV Env if already deployed"
+          try {
+            deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: '/MyWebApp', war: '**/*.war'
+          } catch (Exception e) {
+            echo "Undeploy failed, possibly because the application is not deployed. Proceeding with deployment."
+          }
+        }
 
         echo "Deploying to DEV Env"
         deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: '/MyWebApp', war: '**/*.war'
@@ -54,8 +60,14 @@ pipeline {
 
     stage('QA Deploy qa stage') {
       steps {
-        echo "Undeploying from QA Env if already deployed"
-        deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: '/MyWebApp', war: ''
+        script {
+          echo "Undeploying from QA Env if already deployed"
+          try {
+            deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: '/MyWebApp', war: '**/*.war'
+          } catch (Exception e) {
+            echo "Undeploy failed, possibly because the application is not deployed. Proceeding with deployment."
+          }
+        }
 
         echo "Deploying to QA Env"
         deploy adapters: [tomcat9(credentialsId: '5a45c954-a61d-4643-84c9-498ff0852fac', path: '', url: 'http://ec2-54-227-195-1.compute-1.amazonaws.com:8080/')], contextPath: '/MyWebApp', war: '**/*.war'
